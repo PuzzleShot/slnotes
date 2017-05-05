@@ -23,7 +23,9 @@ $j = new jUI();*/
 
 function createElement(selector){
 	// Helper function for creating elements that show up in objects' element property
-  var breakdown = selector.split("#");
+  var tag = /([^#\.]+)/gi;
+  var id = /#(.*)[\.]/gi;
+  var classes = /\.(.*)[\.#]/gi;
   var data = new Object();
   var hasId = breakdown.length == 2;
   data.tag = breakdown[0];
