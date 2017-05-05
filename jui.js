@@ -23,30 +23,21 @@ $j = new jUI();*/
 
 function createElement(selector){
 	// Helper function for creating elements that show up in objects' element property
-  var breakdown = tag.split("#");
+  var breakdown = selector.split("#");
   var data = new Object();
   var hasId = breakdown.length == 2;
-  if(hasId){
-    data.tag = breakdown[0];
-    var idplus = breakdown.pop().split(".");
-    if(idplus.length > 2){
-      idplus.push(idplus.splice(1).join(" "));
-    }
-    breakdown = breakdown.concat(idplus);
-    breakdown = breakdown.concat(breakdown.pop().split("."));
-  }else data.tag = breakdown;
-  var idplus = hasId ? breakdown.pop() : breakdown;
-  idplus.split(".");
-  if(hasId){
+  data.tag = breakdown[0];
+  var idplus = breakdown.pop();
+  idplus = idplus.split(".");
+  if(hasId && idplus.length > 1){
     data.id = idplus.shift();
   }
   if(idplus.length > 1){
     data.class = idplus.join(" ");
   }
-  
-	var element = document.createElement(data.tag);
-  element.className = ifIs(data.class);
-	element.id = ifIs(data.id);
+  var element = document.createElement(data.tag);
+  if(is(data.class)){ element.className = ifIs(data.class); }
+  if(is(data.id)){element.id = data.id; }
   return element;
 }
 
