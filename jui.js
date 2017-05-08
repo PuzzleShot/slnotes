@@ -21,46 +21,50 @@
 
 $j = new jUI();*/
 
-function createElement(selector){
+function createElement(selector,props){
 	// Helper function for creating elements that show up in objects' element property
-  var tag = /([^#\.]+)/gi;
-  var id = /#(.*)[\.]/gi;
-  var classes = /\.(.*)[\.#]/gi;
+  var tag = /^(?![#\.])([^#\.]+)/gi;
+  var id = /#+(.*)(?![#\.])/gi;
+  var classes = /\.+(.*)[\.#]/gi;
   var data = new Object();
-  var hasId = breakdown.length == 2;
-  data.tag = breakdown[0];
-  var idplus = breakdown.pop();
-  idplus = idplus.split(".");
-  if(hasId && idplus.length > 1){
-    data.id = idplus.shift();
+  data.tag = tag.exec(selector)[1];
+  tagId = id.exec();
+  if(tagId != null){
+    data.id = tagId[1];
   }
-  if(idplus.length > 1){
-    data.class = idplus.join(" ");
+  tagClass = new Array();
+  tagClass.push(classes.exec(selector));
+  while(tagClass[0] != null){
+    tagClass.push(tagClass[0][1]);
+  }
+  if(tagClass.length > 1){
+    tagClass.shift();
+    data.class = tagClass.join(" ");
   }
   var element = document.createElement(data.tag);
-  if(is(data.class)){ element.className = ifIs(data.class); }
+  if(is(data.class)){ element.className = data.class; }
   if(is(data.id)){element.id = data.id; }
   return element;
 }
 
-function attachCreatedElement(selector,target,prop){
+function attachCreatedElement(selector,props,target,key){
 	// Expands createElement helper to allow creation and attachment in one line
-	var element = createElement(selector);
-	target[prop] = element;
+	var element = is(props) ? createElement(selector,props) : createElement(selector);
+	target[key] = element;
 	element.parentElement = target;
 	return element;
 }
 
-function appendCreatedElement(selector,target,prop){
+function appendCreatedElement(selector,props,target,key){
 	// Expands attachCreatedElement helper to also append the new element to the target's DOM
-	var element = attachCreatedElement(selector,target,prop);
+	var element = attachCreatedElement(selector,props,target,key);
 	$(target).append(element);
 	return element;
 }
 
-function prependCreatedElement(selector,target,prop){
+function prependCreatedElement(selector,props,target,key){
 	// Expands attachCreatedElement helper to also prepend the new element to the target's DOM
-	var element = attachCreatedElement(selector,target,prop);
+	var element = attachCreatedElement(selector,props,target,key);
 	$(target).prepend(element);
 	return element;
 }
