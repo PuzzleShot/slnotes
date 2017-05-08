@@ -38,12 +38,17 @@ function createElement(selector,props){
     tagClass.push(tagClass[0][1]);
   }
   if(tagClass.length > 1){
-    tagClass.shift();
-    data.class = tagClass.join(" ");
+    data.class = (tagClass.shift(),tagClass.join(" "));
   }
   var element = document.createElement(data.tag);
   if(is(data.class)){ element.className = data.class; }
   if(is(data.id)){element.id = data.id; }
+  if(is(props)){
+      var keys = Object.getOwnPropertyNames();
+      for(var i=0;i<keys.length;i++){
+        element[keys[i]] = props[keys[i]];
+      }
+  }
   return element;
 }
 
@@ -51,7 +56,7 @@ function attachCreatedElement(selector,props,target,key){
 	// Expands createElement helper to allow creation and attachment in one line
 	var element = is(props) ? createElement(selector,props) : createElement(selector);
 	target[key] = element;
-	element.parentElement = target;
+	element.attachedTo = target;
 	return element;
 }
 
@@ -71,15 +76,9 @@ function prependCreatedElement(selector,props,target,key){
 
 // Core UI framework objects
 
-function UIElement(tag,classes){
+function UIElement(selector,props){
 	// Javascript
-	if(arguments.length == 1){
-		attachCreatedElement(tag,"",this,"element");
-		this.tag = tag;
-	}else if(arguments.length == 2){
-		attachCreatedElement(tag,classes,this,"element");
-	}else this.element;
-	
+	attachCreatedElement(selector,is(props) ? props : void 0,this,"element");	
 	this.element.parentUIElement = this;
 }
 
@@ -110,12 +109,10 @@ function UIElement(tag,classes){
 	}
 }*/
 
-function UIWidget(tag,classes){
+function UIWidget(selector,props){
 	// Inheritance
 	if(arguments.length == 1){
 		UIElement.call(this,tag);
-	}else if(arguments.length == 2){
-		UIElement.call(this,tag,classes);
 	}else UIElement.call(this);
 	
 	// Properties
