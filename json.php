@@ -1,12 +1,14 @@
 <?php
+require_once("jonSQL.php");
+
 if(isset($_REQUEST["request"])){
     switch($_REQUEST["request"]){
         case "cats":
             $cats = jonSQL::query("select * from cats");
             if($cats[1] > 0){
-                $result = new array();
-                for(var $i=0; $i<$cats[1]; i++){
-                    var $cat = jonSQL::fetch_array($cats[0]);
+                $result = array();
+                for($i=0; $i<$cats[1]; $i++){
+                    $cat = jonSQL::fetch_array($cats[0]);
                     array_push($result,$cat);
                 }
             }
@@ -21,9 +23,9 @@ if(isset($_REQUEST["request"])){
         case "notes":
             $notes = jonSQL::query("select * from notes");
             if($notes[1] > 0){
-                $result = new array();
-                for(var $i=0; $i<$notes[1]; i++){
-                    var $note = jonSQL::fetch_array($notes[0]);
+                $result = array();
+                for($i=0; $i<$notes[1]; $i++){
+                    $note = jonSQL::fetch_array($notes[0]);
                     array_push($result,$note);
                 }
             }
@@ -38,7 +40,7 @@ if(isset($_REQUEST["request"])){
         default:
             break;
     }
-    print json_encode($result);
+    print_r($result);
     die;
 }
 ?>
