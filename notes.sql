@@ -2,7 +2,7 @@ create table cats
 {
 id bigint unsigned not null,
 name tinytext not null,
-parent bigint unsigned not null,
+parent bigint unsigned not null default 0,
 primary key (id)
 }
 
