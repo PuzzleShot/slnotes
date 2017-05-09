@@ -8,16 +8,16 @@ if(isset($_REQUEST["request"])){
             if($cats[1] > 0){
                 $result = array();
                 for($i=0; $i<$cats[1]; $i++){
-                    $cat = jonSQL::fetch_array($cats[0]);
+                    $cat = jonSQL::fetch_array($cats[0],MYSQLI_ASSOC);
                     array_push($result,$cat);
                 }
             }
             break;
         case "cat":
             $id = jonSQL::prepare_parameter($_REQUEST["id"]);
-            $cat = jonSQL::query("select * from notes where id = ?",array($id));
+            $cat = jonSQL::query("select * from cats where id = ?",array($id));
             if($cat[1] == 1){
-                $result = jonSQL::fetch_array($cat[0]);
+                $result = jonSQL::fetch_array($cat[0],MYSQLI_ASSOC);
             }
             break;
         case "notes":
@@ -25,7 +25,7 @@ if(isset($_REQUEST["request"])){
             if($notes[1] > 0){
                 $result = array();
                 for($i=0; $i<$notes[1]; $i++){
-                    $note = jonSQL::fetch_array($notes[0]);
+                    $note = jonSQL::fetch_array($notes[0],MYSQLI_ASSOC);
                     array_push($result,$note);
                 }
             }
@@ -34,13 +34,13 @@ if(isset($_REQUEST["request"])){
             $id = jonSQL::prepare_parameter($_REQUEST["id"]);
             $note = jonSQL::query("select * from notes where id = ?",array($id));
             if($note[1] == 1){
-                $result = jonSQL::fetch_array($note[0]);
+                $result = jonSQL::fetch_array($note[0],MYSQLI_ASSOC);
             }
             break;
         default:
             break;
     }
-    print_r($result);
+    print json_encode($result);
     die;
 }
 ?>
