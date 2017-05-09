@@ -52,7 +52,7 @@ function createElement(selector,props){
   return element;
 }
 
-function attachCreatedElement(selector,props,target,key){
+function attachCreatedElement(selector,target,key,props){
 	// Expands createElement helper to allow creation and attachment in one line
 	var element = is(props) ? createElement(selector,props) : createElement(selector);
 	target[key] = element;
@@ -60,16 +60,16 @@ function attachCreatedElement(selector,props,target,key){
 	return element;
 }
 
-function appendCreatedElement(selector,props,target,key){
+function appendCreatedElement(selector,target,key,props){
 	// Expands attachCreatedElement helper to also append the new element to the target's DOM
-	var element = attachCreatedElement(selector,props,target,key);
+	var element = attachCreatedElement.apply(this,arguments);
 	$(target).append(element);
 	return element;
 }
 
-function prependCreatedElement(selector,props,target,key){
+function prependCreatedElement(selector,target,key,props){
 	// Expands attachCreatedElement helper to also prepend the new element to the target's DOM
-	var element = attachCreatedElement(selector,props,target,key);
+	var element = attachCreatedElement.apply(this,arguments);
 	$(target).prepend(element);
 	return element;
 }
