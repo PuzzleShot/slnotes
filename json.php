@@ -1,3 +1,4 @@
+<?php
 if(isset($_REQUEST["request"])){
     switch($_REQUEST["request"]){
         case "cats":
@@ -40,3 +41,4 @@ if(isset($_REQUEST["request"])){
     print json_encode($result);
     die;
 }
+?>
