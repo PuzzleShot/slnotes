@@ -4,7 +4,7 @@ class jonSQL{
 	function __construct(){}
 	
 	private static function connect(){
-		$con = mysqli_connect("localhost","workspacePlus","word&Phrases","jonhlamb_slnotes");
+		$con = mysqli_connect("localhost","jonhlamb_wsp","words&Phrases","jonhlamb_slnotes");
 		return $con;
 	}
 	
