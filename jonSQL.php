@@ -33,7 +33,7 @@ class jonSQL{
 	}
 	
 	static function query($query,$params = array(),$include_name = false){
-		require_once("error.php");
+		//require_once("error.php");
 		$con = self::connect();
 		$valid = false;
 		$valid = self::prepare_query($query,$params);
@@ -54,7 +54,7 @@ class jonSQL{
 					array_push($extra,"user_id:".$_SESSION["user_id"]);
 				}
 				array_push($extra,"query:".$query);
-				$error = new error("MySQL",mysqli_error($con),$extra);
+				//$error = new error("MySQL",mysqli_error($con),$extra);
 			}
 		}
 		mysqli_close($con);
