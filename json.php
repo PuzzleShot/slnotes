@@ -23,7 +23,7 @@ if(isset($_REQUEST["request"])){
                 }
                 array_push($result["notes"],$note);
             }
-            $result = (obj)$result;
+            $result = (object)$result;
             break;
         case "cats":
             $cats = jonSQL::query("select * from cats");
@@ -50,7 +50,7 @@ if(isset($_REQUEST["request"])){
         case "notes":
             $notes = jonSQL::query("select * from notes");
             if($notes[1] > 0){
-                $result = array("notes" => );
+                $result = array("notes" => array());
                 for($i=0; $i<$notes[1]; $i++){
                     $note = jonSQL::fetch_array($notes[0],MYSQLI_ASSOC);
                     $note["id"] = (int)$note["id"];
