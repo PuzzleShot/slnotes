@@ -16,7 +16,7 @@
         <div id="editor">
             <form method="post" action="">
                 <strong id="currentAction"></strong>
-                <textarea name="note" id=""></textarea>
+                <textarea name="note" id="text"></textarea>
                 <p id="originalNote"></p>
                 <div class="half">
                     <strong>Category</strong>
@@ -25,7 +25,10 @@
                 <div class="half">
                     <strong>Follow-up notes</strong>
                     <ul id="followUps"></ul>
+                    <input type="hidden" name="follows" id="follows">
                 </div>
+                <input type="hidden" name="form_action" value="new_note" id="action">
+                <input type="hidden" name="id" id="id">
             </form>
         </div>
     </body>
