@@ -1,3 +1,10 @@
+<?php
+session_start();
+if(!isset($_SESSION["clock_id"]){
+    header("Location: http://jonhlambert.com/slnotes/login.php");
+    die;
+}
+?>
 <!DOCTYPE html>
 <html>
     <head>
@@ -14,7 +21,7 @@
             <ul class="notes"></ul>
         </div>
         <div id="editor">
-            <form method="post" action="">
+            <form method="post" action="http://jonhlambert.com/slnotes/backend.php">
                 <strong id="currentAction"></strong>
                 <textarea name="note" id="text"></textarea>
                 <p id="originalNote"></p>
