@@ -88,7 +88,7 @@ function Follow(note){
     this.element.parent = this;
     var remove = appendCreatedElement("i.fa.fa-times",this.element,"remove");
     $(remove).on("click",function(){
-        removeFollow(this.attachedTo.parent.note);
+        removeFollow(this);
         $(this.attachedTo).remove();
         delete this;
     });
@@ -103,15 +103,32 @@ function Tool(icon,action){
 }
 
 newNote = function(){
-    $("#action")[0].id = "new_note";
+    $("#action")[0].value = "new_note";
+    $("#currentAction").text("New Note");
+    $("#text").innerHTML("");
+    $("#cat")[0].selectedIndex = -1;
+    $("#submit")[0].value = "Add note";
 }
 
 addFollow = function(note){
-    
+    if(note instanceof Note){
+        var follow = new Follow(note);
+        $("#followUps").append(follow.element);
+        var follows = $("#follows")[0].value.split(",");
+        if(follows.indexOf(note.id) >= 0){
+            follows.push();
+        }
+        $("#follows")[0].value = follows.join(",");
+    }
 }
 
-removeFollow = function(){
-    
+removeFollow = function(follow){
+    var follows = $("#follows")[0].value.split(",");
+    var found = follows.indexOf(note.id);
+    if(found){
+        follows.splice(found,1);
+        $("#follows")[0].value = follows.join(",");
+    }
 }
 
 editNote = function(){
@@ -132,14 +149,24 @@ editNote = function(){
         for(var i=0; i<active.follows.length; i++){
             addFollow(getNote(active.follows[i]));
         }
+        $("#submit")[0].value = "Submit edit";
     }
     
 }
 
 trash = function(){
-    if($("#notesPanel li.sub.active").length == 1){
-        $("#action")[0].value = "delete_cat";
-    }else $("#action")[0].value = "delete_note";
+    if($("#notesPanel li.active").length == 1){
+        var target = $("#notesPanel li.active");
+        if(target.hasClass("sub")){
+            $("#action")[0].value = "delete_cat";
+            $("#currentAction").text("Delete '"+active.note.name+"'?");
+        }else{
+            $("#action")[0].value = "delete_note";
+            $("#currentAction").text("Delete note #"+active.note.id+"?");
+        }
+        $("#id")[0].value = target[0].note.id;
+        $("#submit")[0].value = "Confirm";
+    }
 }
 
-$("#toolbar").append(new Tool("plus"),new Tool("arrow-right"),new Tool("pencil"),new Tool("trash"));
+$("#toolbar").append(new Tool("plus",newNote),new Tool("arrow-right",addFollow),new Tool("pencil",editNote),new Tool("trash",trash));
