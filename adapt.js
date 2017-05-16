@@ -41,8 +41,11 @@ function NoteCategory(id,name,parent){
     }
 }
 
-function Note(id,type,note,follows){
-    
+function Note(id,noteType,note,follows){
+    this.id = id;
+    this.type = noteType;
+    this.text = note;
+    this.follows = follows;
 }
 
 getNote = function(id){
