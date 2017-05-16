@@ -41,8 +41,11 @@ function NoteCategory(id,name,parent){
     }
 }
 
-function Note(id,type,note,follows){
-    
+function Note(id,noteType,note,follows){
+    this.id = id;
+    this.type = noteType;
+    this.note = text;
+    this.follows = follows;
 }
 
 getNote = function(id){
@@ -60,7 +63,9 @@ xmlhttp.addEventListener("load",function(){
     var info = JSON.parse(this.responseText);
     cgen.categories = info[0];
     for(var i=0;i<info[0].length;i++){
-        cgen.categories[i] = new NoteCategory(scaffolds.categories[i].name);
+        var cat = scaffolds.categories[i];
+        cgen.categories[i] = new NoteCategory(cat.id,cat.name,cat.parent);
+        $("#cats").append(createElement("option",{ "value": cat.id, "innerText": cat.name }));
     }
     cgen.notes = info[1];
     for(var i=0;i<info[1].length;i++){
@@ -134,7 +139,7 @@ removeFollow = function(follow){
 editNote = function(){
     var active = $("#notesPanel li.active").not("#notesPanel li.sub");
     if(active.length == 1){
-        active = active[0]
+        active = active[0].note;
         $("#action")[0].value = "edit_note";
         $("#id")[0].value = active.id;
         $("#currentAction").text("Editing note #"+active.id);
@@ -159,10 +164,10 @@ trash = function(){
         var target = $("#notesPanel li.active");
         if(target.hasClass("sub")){
             $("#action")[0].value = "delete_cat";
-            $("#currentAction").text("Delete '"+active.note.name+"'?");
+            $("#currentAction").text("Delete '"+target.cat.name+"'?");
         }else{
             $("#action")[0].value = "delete_note";
-            $("#currentAction").text("Delete note #"+active.note.id+"?");
+            $("#currentAction").text("Delete note #"+target.note.id+"?");
         }
         $("#id")[0].value = target[0].note.id;
         $("#submit")[0].value = "Confirm";
