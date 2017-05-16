@@ -13,6 +13,8 @@ if(!$logged_in){
             if(password_verify($password,$record["password_hash"])){
                 $_SESSSION["clock_id"] = $id;
                 unset($_SESSION["failure"]);
+                header("Location: http://jonhlambert.com/slnotes/index.php");
+                die;
             }else $_SESSION["failure"] = true;
         }else $_SESSION["failure"] = true;
     }
@@ -72,6 +74,8 @@ if(!$logged_in){
                 default:
                     break;
             }
+            header("Location: http://jonhlambert.com/slnotes/index.php");
+            die;
         }
     }
 }
