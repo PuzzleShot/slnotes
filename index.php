@@ -1,6 +1,6 @@
 <?php
 session_start();
-if(!isset($_SESSION["clock_id"]){
+if(!isset($_SESSION["clock_id"])){
     header("Location: http://jonhlambert.com/slnotes/login.php");
     die;
 }
@@ -14,6 +14,7 @@ if(!isset($_SESSION["clock_id"]){
         <script type="text/javascript" src="jquery-3.2.0.slim.min.js"></script>
         <script type="text/javascript" src="core.js"></script>
         <script type="text/javascript" src="jui.js"></script>
+        <script type="text/javascript" src="src.js"></script>
     </head>
     <body id="body">
         <div id="notesPanel">
