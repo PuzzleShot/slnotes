@@ -1,4 +1,5 @@
 var noteCats = new Array();
+var cgen = new Object();
 
 function NoteCategory(id,name,parent){
     this.id = isNumber(id,true) ? id : void 0;
@@ -60,7 +61,7 @@ function Note(id,noteType,note,follows){
 
 var xmlhttp = new XMLHttpRequest();
 xmlhttp.addEventListener("load",function(){
-    /*var info = JSON.parse(this.responseText);
+    var info = JSON.parse(this.responseText);
     cgen.categories = info[0];
     for(var i=0;i<info[0].length;i++){
         var cat = scaffolds.categories[i];
@@ -71,9 +72,9 @@ xmlhttp.addEventListener("load",function(){
     for(var i=0;i<info[1].length;i++){
         cgen.notes[i] = new Section(scaffolds.categories[i].name);
         $("#wsp-ext_comments div.wsp-ext_window").append(cgen.categories[i].element);
-    }*/
+    }
 });
-xmlhttp.open("get","http://www.jonhlambert.com/slnotes/json.php?request=both",true);
+xmlhttp.open("get","http://jonhlambert.com/slnotes/json.php?request=both",true);
 xmlhttp.send();
 
 /*$("#notesPanel li").on("click",function(){
