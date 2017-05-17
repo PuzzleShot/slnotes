@@ -60,7 +60,7 @@ getNote = function(id){
 
 var xmlhttp = new XMLHttpRequest();
 xmlhttp.addEventListener("load",function(){
-    var info = JSON.parse(this.responseText);
+    /*var info = JSON.parse(this.responseText);
     cgen.categories = info[0];
     for(var i=0;i<info[0].length;i++){
         var cat = scaffolds.categories[i];
@@ -71,7 +71,7 @@ xmlhttp.addEventListener("load",function(){
     for(var i=0;i<info[1].length;i++){
         cgen.notes[i] = new Section(scaffolds.categories[i].name);
         $("#wsp-ext_comments div.wsp-ext_window").append(cgen.categories[i].element);
-    }
+    }*/
 });
 xmlhttp.open("get","http://www.jonhlambert.com/slnotes/json.php?request=both",true);
 xmlhttp.send();
@@ -100,7 +100,7 @@ function Follow(note){
 }
 
 function Tool(icon,action){
-    this.element = createElement("div.tool.fa.fa-"+);
+    this.element = createElement("div.tool.fa.fa-"+icon);
     if(typeof action === "function"){
         this.action = action;
     }
@@ -174,4 +174,4 @@ trash = function(){
     }
 }
 
-$("#toolbar").append(new Tool("plus",newNote),new Tool("arrow-right",addFollow),new Tool("pencil",editNote),new Tool("trash",trash));
+$("#toolbar").append(new Tool("plus",newNote).element,new Tool("arrow-right",addFollow).element,new Tool("pencil",editNote).element,new Tool("trash",trash).element);
