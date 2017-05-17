@@ -48,7 +48,7 @@ function Note(id,noteType,note,follows){
     this.follows = follows;
 }
 
-getNote = function(id){
+/*getNote = function(id){
     var value = void 0;
     for(var i=0; i<noteCats.length; i++){
         value = noteCats.getNote(id);
@@ -56,7 +56,7 @@ getNote = function(id){
             end;
         }
     }
-}
+}*/
 
 var xmlhttp = new XMLHttpRequest();
 xmlhttp.addEventListener("load",function(){
@@ -76,7 +76,7 @@ xmlhttp.addEventListener("load",function(){
 xmlhttp.open("get","http://www.jonhlambert.com/slnotes/json.php?request=both",true);
 xmlhttp.send();
 
-$("#notesPanel li").on("click",function(){
+/*$("#notesPanel li").on("click",function(){
     $("#notesPanel li").not(this).removeClass("active");
     $(this).addClass("active");
 });
@@ -174,4 +174,4 @@ trash = function(){
     }
 }
 
-$("#toolbar").append(new Tool("plus",newNote).element,new Tool("arrow-right",addFollow).element,new Tool("pencil",editNote).element,new Tool("trash",trash).element);
+$("#toolbar").append(new Tool("plus",newNote).element,new Tool("arrow-right",addFollow).element,new Tool("pencil",editNote).element,new Tool("trash",trash).element);*/
