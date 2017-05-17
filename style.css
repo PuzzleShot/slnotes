@@ -78,6 +78,14 @@ body
     overflow:scroll;
 }
 
+textarea
+{
+    display:block;
+    position:relative;
+    margin:12px;
+    width:calc(100% - 24px);
+}
+
 .follow
 {
     display:block;
@@ -124,4 +132,6 @@ input[type="submit"]
     font-weight:bold;
     text-align:center;
     color:rgba(255,255,255,.9;
+    background:#448aff;
+    border:1px outset #448aff;
 }
