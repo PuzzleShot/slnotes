@@ -25,7 +25,7 @@ function createElement(selector,props){
 	// Helper function for creating elements that show up in objects' element property
   var tag = /^(?![#\.])([^#\.]+)/gi;
   var id = /#+(.*)(?![#\.])/gi;
-  var classes = /\.+(.*)[\.#]/gi;
+  var classes = /\.+([^\.]*)/gi;
   var data = new Object();
   data.tag = tag.exec(selector)[1];
   tagId = id.exec();
@@ -35,7 +35,8 @@ function createElement(selector,props){
   tagClass = new Array();
   tagClass.push(classes.exec(selector));
   while(tagClass[0] != null){
-    tagClass.push(tagClass[0][1]);
+      tagClass.push(tagClass[0][1]);
+      tagClass[0] = classes.exec(selector);
   }
   if(tagClass.length > 1){
     data.class = (tagClass.shift(),tagClass.join(" "));
@@ -44,7 +45,7 @@ function createElement(selector,props){
   if(is(data.class)){ element.className = data.class; }
   if(is(data.id)){element.id = data.id; }
   if(is(props)){
-      var keys = Object.getOwnPropertyNames();
+      var keys = Object.getOwnPropertyNames(props);
       for(var i=0;i<keys.length;i++){
         element[keys[i]] = props[keys[i]];
       }
@@ -872,77 +873,6 @@ function repositionMenu(menu){
 	position = Math.max(position,start-(height-36));
 	position -= (start);
 	$(menu).css("margin-top",position+"px");6.5
-}
-
-function contextAwareWord(type,target){
-	type = type.toLowerCase();
-	
-	// Inheritance
-	UIWidget.call(this,"span",type);
-	
-	// Javascript
-	this.type = type;
-	if(target instanceof UIElement){
-		this.target = target.element;
-	}else if(target instanceof Element){
-		this.target = target;
-	}
-	
-	// Methods
-	this.resize = function(){
-		switch(this.type){
-			case "position":
-			case "direction":
-			case "compass":
-				var thisXPosition = $(this.element).offset().left+($(this.element).outerWidth()/2);
-				var thisYPosition = $(this.element).offset().top+($(this.element).outerHeight()/2);
-				var targetXPosition = $(target).offset().left+($(target).outerWidth()/2);
-				var targetYPosition = $(target).offset().top+($(target).outerHeight()/2);
-				var atanX = targetXPosition-thisXPosition;
-				var atanY = thisYPosition-targetYPosition;
-				var angle = Math.atan2(atanX,atanY);
-				var region = Math.ceil((angle+Math.PI)/(Math.PI/8));
-				region += 1;
-				if(region == 17){
-					region = 1;
-				}
-				region = Math.floor(region/2);
-				if(this.type == "position"){
-					if(region == 1){ $(this.element).text("below and to the left"); }
-					if(region == 2){ $(this.element).text("to the left"); }
-					if(region == 3){ $(this.element).text("above and to the left"); }
-					if(region == 4){ $(this.element).text("above"); }
-					if(region == 5){ $(this.element).text("above and to the right"); }
-					if(region == 6){ $(this.element).text("to the right"); }
-					if(region == 7){ $(this.element).text("below and to the right"); }
-					if(region == 8){ $(this.element).text("below"); }
-				}else{
-					if(this.type == "direction"){
-						if(region == 1){ $(this.element).text("down and left"); }
-						if(region == 2){ $(this.element).text("left"); }
-						if(region == 3){ $(this.element).text("up and left"); }
-						if(region == 4){ $(this.element).text("up"); }
-						if(region == 5){ $(this.element).text("up and right"); }
-						if(region == 6){ $(this.element).text("right"); }
-						if(region == 7){ $(this.element).text("down and right"); }
-						if(region == 8){ $(this.element).text("down"); }
-					}else{
-						if(region == 1){ $(this.element).text("southwest"); }
-						if(region == 2){ $(this.element).text("west"); }
-						if(region == 3){ $(this.element).text("northwest"); }
-						if(region == 4){ $(this.element).text("north"); }
-						if(region == 5){ $(this.element).text("northeast"); }
-						if(region == 6){ $(this.element).text("east"); }
-						if(region == 7){ $(this.element).text("southeast"); }
-						if(region == 8){ $(this.element).text("south"); }
-
-					}
-				}
-				break;
-			default:
-				break;
-		}
-	}
 }
 
 var resizeRegistry = new Array();
