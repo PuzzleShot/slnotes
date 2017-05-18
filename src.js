@@ -42,10 +42,11 @@ function NoteCategory(id,name,parent){
     }
 }
 
-function Note(id,noteType,note,follows){
+function Note(id,cat,noteType,note,follows){
     this.id = id;
+    this.cat = cat;
     this.type = noteType;
-    this.note = text;
+    this.text = note;
     this.follows = follows;
 }
 
@@ -62,22 +63,28 @@ function Note(id,noteType,note,follows){
 var xmlhttp = new XMLHttpRequest();
 xmlhttp.addEventListener("load",function(){
     var info = JSON.parse(this.responseText);
-    cgen.categories = info[0];
-    for(var i=0;i<info[0].length;i++){
-        var cat = scaffolds.categories[i];
-        cgen.categories[i] = new NoteCategory(cat.id,cat.name,cat.parent);
+    cgen.categories = new Array();
+    for(var i=0;i<info.cats.length;i++){
+        var cat = info.cats[i];
+        cgen.categories.push(new NoteCategory(cat.id,cat.name,cat.parent));
         $("#cats").append(createElement("option",{ "value": cat.id, "innerText": cat.name }));
     }
-    cgen.notes = info[1];
-    for(var i=0;i<info[1].length;i++){
-        cgen.notes[i] = new Section(scaffolds.categories[i].name);
+    cgen.notes = new Array();
+    for(var i=0;i<info.notes.length;i++){
+        var note = info.notes[i];
+        cgen.notes.push(new Note(note.id,note.cat,note.type,note.note,note.follows));
+        for(var j=0; j<noteCats.length; j++){
+            if(noteCats[j].id == note.cat){
+                noteCats[j].push(note);
+            }
+        }
         $("#wsp-ext_comments div.wsp-ext_window").append(cgen.categories[i].element);
     }
 });
 xmlhttp.open("get","http://jonhlambert.com/slnotes/json.php?request=both",true);
 xmlhttp.send();
 
-/*$("#notesPanel li").on("click",function(){
+$("#notesPanel li").on("click",function(){
     $("#notesPanel li").not(this).removeClass("active");
     $(this).addClass("active");
 });
@@ -105,14 +112,14 @@ function Tool(icon,action){
     if(typeof action === "function"){
         this.action = action;
     }
-    $(this.element).on("click",this.action);
 }
 
-newNote = function(){
+addNote = function(){
     $("#action")[0].value = "new_note";
     $("#currentAction").text("New Note");
-    $("#text").innerHTML("");
-    $("#cat")[0].selectedIndex = -1;
+    $("#text").html("");
+    $("#originalNote").html("");
+    $("#cats")[0].selectedIndex = (0-1);
     $("#submit")[0].value = "Add note";
 }
 
@@ -144,8 +151,9 @@ editNote = function(){
         $("#action")[0].value = "edit_note";
         $("#id")[0].value = active.id;
         $("#currentAction").text("Editing note #"+active.id);
-        $("#text").innerHTML(active.text);
-        $("#cat")[0].selectedIndex = -1;
+        $("#text").html(active.text);
+        $("#originalNote").html(active.text);
+        $("#cats")[0].selectedIndex = active.cat;
         for(var i=0; i<$("#cat")[0].options.length,active.cat != 0; i++){
             if($("#cat")[0].options[i].value == active.cat){
                 $("#cat")[0].selectedIndex = i;
@@ -157,7 +165,6 @@ editNote = function(){
         }
         $("#submit")[0].value = "Submit edit";
     }
-    
 }
 
 trash = function(){
@@ -169,10 +176,11 @@ trash = function(){
         }else{
             $("#action")[0].value = "delete_note";
             $("#currentAction").text("Delete note #"+target.note.id+"?");
+            $("#originalNote").html(target.note.text);
         }
         $("#id")[0].value = target[0].note.id;
         $("#submit")[0].value = "Confirm";
     }
 }
 
-$("#toolbar").append(new Tool("plus",newNote).element,new Tool("arrow-right",addFollow).element,new Tool("pencil",editNote).element,new Tool("trash",trash).element);*/
+$("#toolbar").append(new Tool("plus",addNote).element,new Tool("arrow-right",addFollow).element,new Tool("pencil",editNote).element,new Tool("trash",trash).element);
