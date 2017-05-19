@@ -36,7 +36,7 @@ body
         top:0;
         left:0;
         right:0;
-        padding:12px;
+        padding:9px;
         height:48px;
         box-sizing:border-box;
     }
@@ -55,18 +55,52 @@ body
             text-align:center;
             cursor:pointer;
         }
+
+            #notesPanel > #toolbar i.fa:active
+            {
+                padding:2px 2px 5px 2px;
+                font-size:18px;
+                background:#e0e0e0;
+                border:3px inset #e0e0e0;
+                border-bottom-width:0;
+                border-radius:3px;
+            }
+
+            #notesPanel > #toolbar i.fa.disabled
+            {
+                padding:5px;
+                font-size:20px;
+                border:0;
+                opacity:.5;
+            }    
     
     #notesPanel > ul.notes
     {
         position:absolute;
-        top:46px;
+        top:47px;
         bottom:10px;
         left:10px;
         right:10px;
+        margin:0;
+        padding:0;
         background:white;
         border:1px inset #eee;
         box-sizing:border-box;
     }
+
+        #notesPanel > ul.notes li
+        {
+            display:block;
+            position:relative;
+            margin:0;
+            padding:0;
+            height:24px;
+            font-size:16px;
+            line-height:24px;
+            overflow:hidden;
+            text-overflow:ellipsis;
+            white-space:nowrap;
+        }
 
 #editor
 {
@@ -78,13 +112,46 @@ body
     overflow:scroll;
 }
 
-textarea
+#currentAction
 {
     display:block;
     position:relative;
     margin:12px;
+    height:24px;
+    font-size:20px;
+    line-height:24px;
+}
+
+textarea
+{
+    display:block;
+    position:relative;
     width:calc(100% - 24px);
 }
+
+p
+{
+    margin:12px 0 0;
+}
+
+div.field
+{
+    position:relative;
+    margin:12px;
+    padding-top:36px;
+}
+
+    div.field > strong
+    {
+        display:block;
+        position:absolute;
+        top:0;
+        left:0;
+        height:24px;
+        max-width:100%;
+        font-size:16px;
+        line-height:24px;
+    }
 
 .follow
 {
@@ -126,12 +193,13 @@ input[type="submit"]
     position:relative;
     margin:12px;
     padding:7px;
+    box-sizing:content-box;
     height:16px;
-    font-size:16px;
+    font-size:14px;
     line-height:16px;
     font-weight:bold;
     text-align:center;
-    color:rgba(255,255,255,.9;
+    color:rgba(255,255,255,.9);
     background:#448aff;
     border:1px outset #448aff;
 }
