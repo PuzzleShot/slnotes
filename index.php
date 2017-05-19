@@ -19,18 +19,21 @@ if(!isset($_SESSION["clock_id"])){
     <body id="body">
         <div id="notesPanel">
             <div class="toolbar" id="toolbar"></div>
-            <ul class="notes"></ul>
+            <ul class="notes" id="notes"></ul>
         </div>
         <div id="editor">
             <form method="post" action="http://jonhlambert.com/slnotes/backend.php">
-                <strong id="currentAction"></strong>
-                <textarea name="note" id="text"></textarea>
-                <p id="originalNote"></p>
-                <div class="half">
+                <strong id="currentAction">New note</strong>
+                <div class="field">
+                    <strong>Text</strong>
+                    <textarea name="note" id="text"></textarea>
+                    <p id="originalNote"></p>
+                </div>
+                <div class="field">
                     <strong>Category</strong>
                     <select id="cats"></select>
                 </div>
-                <div class="half">
+                <div class="field">
                     <strong>Follow-up notes</strong>
                     <ul id="followUps"></ul>
                     <input type="hidden" name="follows" id="follows">
