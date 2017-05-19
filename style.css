@@ -93,13 +93,22 @@ body
             display:block;
             position:relative;
             margin:0;
-            padding:0;
+            padding:0 4px;
             height:24px;
             font-size:16px;
             line-height:24px;
             overflow:hidden;
             text-overflow:ellipsis;
             white-space:nowrap;
+        }
+
+        #notesPanel > ul.notes li.active
+        {
+            height:auto;
+            color:white;
+            background:#0091ea;
+            text-overflow:clip;
+            white-space:normal;
         }
 
 #editor
@@ -139,6 +148,7 @@ div.field
     position:relative;
     margin:12px;
     padding-top:36px;
+    overflow:hidden;
 }
 
     div.field > strong
@@ -159,7 +169,7 @@ div.field
     position:relative;
     float:left;
     margin:0 24px 0 0;
-    padding:3px 23px 3px 3px;
+    padding:3px 23px 3px 7px;
     height:20px;
     font-size:16px;
     line-height:20px;
@@ -182,7 +192,7 @@ div.field
         cursor:pointer;
     }
 
-        .follow i.fa
+        .follow i.fa:hover
         {
             color:black;
         }
