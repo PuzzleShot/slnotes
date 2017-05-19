@@ -24,7 +24,7 @@ $j = new jUI();*/
 function createElement(selector,props){
 	// Helper function for creating elements that show up in objects' element property
   var tag = /^(?![#\.])([^#\.]+)/gi;
-  var id = /#+(.*)(?![#\.])/gi;
+  var id = /#+([^.#]*)/gi;
   var classes = /\.+([^\.]*)/gi;
   var data = new Object();
   data.tag = tag.exec(selector)[1];
@@ -910,6 +910,3 @@ OptionBox.prototype.constructor = OptionBox;
 
 Option.prototype = Object.create(UIElement.prototype);
 Option.prototype.constructor = Option;
-
-contextAwareWord.prototype = Object.create(UIWidget.prototype);
-contextAwareWord.prototype.constructor = contextAwareWord;
