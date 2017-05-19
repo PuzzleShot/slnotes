@@ -78,7 +78,7 @@ xmlhttp.addEventListener("load",function(){
                 noteCats[j].push(note);
             }
         }
-        var li = createElement("li",{ "note": note }
+        var li = createElement("li",{ "note": note });
         $("#notes").append(li);
     }
 });
