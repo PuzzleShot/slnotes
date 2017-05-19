@@ -73,36 +73,37 @@ xmlhttp.addEventListener("load",function(){
     for(var i=0;i<info.notes.length;i++){
         var note = info.notes[i];
         cgen.notes.push(new Note(note.id,note.cat,note.type,note.note,note.follows));
+        note = cgen.notes[cgen.notes.length-1];
         for(var j=0; j<noteCats.length; j++){
             if(noteCats[j].id == note.cat){
                 noteCats[j].push(note);
             }
         }
-        var li = createElement("li",{ "note": note });
+        var li = createElement("li",{ "innerHTML": "<b>"+note.type+"</b> "+note.text, "note": note });
         $("#notes").append(li);
     }
 });
 xmlhttp.open("get","http://jonhlambert.com/slnotes/json.php?request=both",true);
 xmlhttp.send();
 
-$("#notesPanel li").on("click",function(){
+$("#notes").on("click","li",function(){
     $("#notesPanel li").not(this).removeClass("active");
     $(this).addClass("active");
 });
 
-$("#toolbar i.fa").on("click",function(){
-    if($("#notesPanel li.active").length == 1){
-        this.action();
+$(document).on("click",function(evt){
+    if(!(evt.target instanceof HTMLLIElement)){
+        $("#notesPanel li").removeClass("active");
     }
 });
 
 function Follow(note){
     this.note = note;
-    this.element = createElement("strong.follow");
+    this.element = createElement("strong.follow",{ "innerHTML": note.text });
     this.element.parent = this;
     var remove = appendCreatedElement("i.fa.fa-times",this.element,"remove");
     $(remove).on("click",function(){
-        removeFollow(this);
+        removeFollow(this.attachedTo.parent);
         $(this.attachedTo).remove();
         delete this;
     });
@@ -112,6 +113,9 @@ function Tool(icon,action){
     this.element = createElement("i.tool.fa.fa-"+icon);
     if(typeof action === "function"){
         this.action = action;
+        $(this).on("click",function(){
+            this.action();
+        });
     }
 }
 
@@ -125,12 +129,13 @@ addNote = function(){
 }
 
 addFollow = function(note){
-    if(note instanceof Note){
-        var follow = new Follow(note);
+    var active = $("#notesPanel li.active").not("#notesPanel li.sub");
+    if(active.length == 1){
+        var follow = new Follow(active[0].note);
         $("#followUps").append(follow.element);
         var follows = $("#follows")[0].value.split(",");
-        if(follows.indexOf(note.id) >= 0){
-            follows.push();
+        if(follows.indexOf(active[0].note.id) >= 0){
+            follows.push(active[0].note.id);
         }
         $("#follows")[0].value = follows.join(",");
     }
@@ -138,7 +143,7 @@ addFollow = function(note){
 
 removeFollow = function(follow){
     var follows = $("#follows")[0].value.split(",");
-    var found = follows.indexOf(note.id);
+    var found = follows.indexOf(follow.note.id);
     if(found){
         follows.splice(found,1);
         $("#follows")[0].value = follows.join(",");
