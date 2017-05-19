@@ -78,7 +78,8 @@ xmlhttp.addEventListener("load",function(){
                 noteCats[j].push(note);
             }
         }
-        $("#wsp-ext_comments div.wsp-ext_window").append(cgen.categories[i].element);
+        var li = createElement("li",{ "note": note }
+        $("#notes").append(li);
     }
 });
 xmlhttp.open("get","http://jonhlambert.com/slnotes/json.php?request=both",true);
@@ -108,7 +109,7 @@ function Follow(note){
 }
 
 function Tool(icon,action){
-    this.element = createElement("div.tool.fa.fa-"+icon);
+    this.element = createElement("i.tool.fa.fa-"+icon);
     if(typeof action === "function"){
         this.action = action;
     }
