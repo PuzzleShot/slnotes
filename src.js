@@ -111,10 +111,11 @@ function Follow(note){
 
 function Tool(icon,action){
     this.element = createElement("i.tool.fa.fa-"+icon);
+    this.element.parent = this;
     if(typeof action === "function"){
         this.action = action;
         $(this).on("click",function(){
-            this.action();
+            this.parent.action();
         });
     }
 }
@@ -134,7 +135,7 @@ addFollow = function(note){
         var follow = new Follow(active[0].note);
         $("#followUps").append(follow.element);
         var follows = $("#follows")[0].value.split(",");
-        if(follows.indexOf(active[0].note.id) >= 0){
+        if(follows.indexOf(active[0].note.id) < 0){
             follows.push(active[0].note.id);
         }
         $("#follows")[0].value = follows.join(",");
