@@ -65,12 +65,12 @@ if(!$logged_in){
                 $id = jonSQL::prepare_parameter($_POST["id"]);
                 if($_POST["form_action"] == "new_note"){
                     if(isset($cat)){
-                        jonSQL::query("insert into notes (cat,type,note,follows) values (?,'?',?,'?')",array($cat,$note));
-                    }else jonSQL::query("insert into notes (type,note,follows) values ('?''?','?')",array($note));
+                        jonSQL::query("insert into notes (cat,type,note,follows) values (?,'?',?,'?')",array($cat,$type,$text,$follows));
+                    }else jonSQL::query("insert into notes (type,note,follows) values ('?''?','?')",array($type,$text,$follows));
                 }else{
                     if(isset($cat)){
-                        jonSQL::query("update notes set type = '?', text = '?', cat = ?, follows = '?' where id = ?",array($type,$note,$cat,$follows,$id));
-                    }else jonSQL::query("update notes set type = '?', text = '?', follows = '?' where id = ?",array($type,$note,$follows,$id));
+                        jonSQL::query("update notes set type = '?', text = '?', cat = ?, follows = '?' where id = ?",array($type,$text,$cat,$follows,$id));
+                    }else jonSQL::query("update notes set type = '?', text = '?', follows = '?' where id = ?",array($type,$text,$follows,$id));
                 }
                 break;
             case "delete_note":
