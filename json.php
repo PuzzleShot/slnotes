@@ -18,8 +18,8 @@ if(isset($_REQUEST["request"])){
                 $note["id"] = (int)$note["id"];
                 $note["cat"] = (int)$note["cat"];
                 $note["follows"] = explode(",",$note["follows"]);
-                for($i=0; $i<count($note["follows"]); $i++){
-                    $note["follows"][$i] = (int)$note["follows"][$i];
+                for($j=0; $j<count($note["follows"]); $j++){
+                    $note["follows"][$j] = (int)$note["follows"][$j];
                 }
                 array_push($result["notes"],$note);
             }
@@ -56,8 +56,8 @@ if(isset($_REQUEST["request"])){
                     $note["id"] = (int)$note["id"];
                     $note["cat"] = (int)$note["cat"];
                     $note["follows"] = explode(",",$note["follows"]);
-                    for($i=0; $i<count($note["follows"]); $i++){
-                        $note["follows"][$i] = (int)$note["follows"][$i];
+                    for($j=0; $j<count($note["follows"]); $j++){
+                        $note["follows"][$j] = (int)$note["follows"][$j];
                     }
                     array_push($result["notes"],$note);
                 }
