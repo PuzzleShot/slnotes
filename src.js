@@ -114,7 +114,9 @@ function Tool(icon,action){
     this.element.parent = this;
     if(typeof action === "function"){
         this.action = action;
-        $(this).on("click",function(){
+        $(this.element).on("click",function(evt){
+            evt.stopPropagation();
+            evt.preventDefault();
             this.parent.action();
         });
     }
@@ -132,12 +134,12 @@ addNote = function(){
 addFollow = function(note){
     var active = $("#notesPanel li.active").not("#notesPanel li.sub");
     if(active.length == 1){
-        var follow = new Follow(active[0].note);
-        $("#followUps").append(follow.element);
         var follows = $("#follows")[0].value.split(",");
-        if(follows.indexOf(active[0].note.id) < 0){
+        if((follows.indexOf(active[0].note.id) < 0) && (follows[0] != "")){
+            var follow = new Follow(active[0].note);
+            $("#followUps").append(follow.element);
             follows.push(active[0].note.id);
-        }
+        }else follows[0] = active[0].note.id;
         $("#follows")[0].value = follows.join(",");
     }
 }
@@ -161,9 +163,9 @@ editNote = function(){
         $("#text").html(active.text);
         $("#originalNote").html(active.text);
         $("#cats")[0].selectedIndex = active.cat;
-        for(var i=0; i<$("#cat")[0].options.length,active.cat != 0; i++){
-            if($("#cat")[0].options[i].value == active.cat){
-                $("#cat")[0].selectedIndex = i;
+        for(var i=0; i<$("#cats")[0].options.length,active.cat != 0; i++){
+            if($("#cats")[0].options[i].value == active.cat){
+                $("#cats")[0].selectedIndex = i;
                 end;
             }
         }
