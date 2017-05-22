@@ -35,7 +35,7 @@ if(!isset($_SESSION["clock_id"])){
                 </div>
                 <div class="field">
                     <strong>Text</strong>
-                    <textarea name="note" id="text"></textarea>
+                    <textarea name="text" id="text"></textarea>
                     <p id="originalNote"></p>
                 </div>
                 <div class="field">
