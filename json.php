@@ -20,6 +20,10 @@ if(isset($_REQUEST["request"])){
                 $note["follows"] = explode(",",$note["follows"]);
                 for($j=0; $j<count($note["follows"]); $j++){
                     $note["follows"][$j] = (int)$note["follows"][$j];
+                    if($note["follows"][$j] == 0){
+                        array_splice($note["follows"],$j,1);
+                        $j--;
+                    }
                 }
                 array_push($result["notes"],$note);
             }
@@ -58,6 +62,10 @@ if(isset($_REQUEST["request"])){
                     $note["follows"] = explode(",",$note["follows"]);
                     for($j=0; $j<count($note["follows"]); $j++){
                         $note["follows"][$j] = (int)$note["follows"][$j];
+                        if($note["follows"][$j] == 0){
+                            array_splice($note["follows"],$j,1);
+                            $j--;
+                        }
                     }
                     array_push($result["notes"],$note);
                 }
