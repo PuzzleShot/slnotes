@@ -25,7 +25,7 @@ if(!isset($_SESSION["clock_id"])){
                 <strong id="currentAction">New note</strong>
                 <div class="field">
                     <strong>Type</strong>
-                    <select name="type">
+                    <select name="type" id="type">
                         <option value="inq">INQ</option>
                         <option value="sts">STS</option>
                         <option value="req">REQ</option>
@@ -40,7 +40,7 @@ if(!isset($_SESSION["clock_id"])){
                 </div>
                 <div class="field">
                     <strong>Category</strong>
-                    <select id="cats"></select>
+                    <select name="cats" id="cats"></select>
                 </div>
                 <div class="field">
                     <strong>Follow-up notes</strong>
