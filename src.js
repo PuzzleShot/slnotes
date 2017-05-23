@@ -8,7 +8,7 @@ function NoteCategory(id,name,parent){
         for(var i=0; i<noteCats.length; i++){
             if(noteCats[i].id == parent){
                 this.parent = noteCats[i];
-                end;
+                break;
             }
         }
         if(!is(this.parent)){
@@ -32,10 +32,10 @@ function NoteCategory(id,name,parent){
     
     this.getNote = function(id){
         var value = void 0;
-        for(var i=0; i<this.note.length; i++){
+        for(var i=0; i<this.notes.length; i++){
             if(this.notes[i].id == id){
                 value = this.notes[i];
-                end;
+                break;
             }
         }
         return value;
@@ -47,18 +47,19 @@ function Note(id,cat,noteType,note,follows){
     this.cat = cat;
     this.type = noteType;
     this.text = note;
-    this.follows = follows;
+    this.follows = isString(follows) ? follows.split(",") : follows;
 }
 
-/*getNote = function(id){
+getNote = function(id){
     var value = void 0;
-    for(var i=0; i<noteCats.length; i++){
-        value = noteCats.getNote(id);
-        if(is(value)){
-            end;
+    for(var i=0; i<cgen.notes.length; i++){
+        if(cgen.notes[i].id == id){
+            value = cgen.notes[i];
+            break;
         }
     }
-}*/
+    return value;
+}
 
 var xmlhttp = new XMLHttpRequest();
 xmlhttp.addEventListener("load",function(){
@@ -74,9 +75,9 @@ xmlhttp.addEventListener("load",function(){
         var note = info.notes[i];
         cgen.notes.push(new Note(note.id,note.cat,note.type,note.note,note.follows));
         note = cgen.notes[cgen.notes.length-1];
-        for(var j=0; j<noteCats.length; j++){
-            if(noteCats[j].id == note.cat){
-                noteCats[j].push(note);
+        for(var j=0; j<cgen.categories.length; j++){
+            if(cgen.categories[j].id == note.cat){
+                cgen.categories[j].add(note);
             }
         }
         var li = createElement("li",{ "innerHTML": "<b>"+note.type+"</b> "+note.text, "note": note });
@@ -86,9 +87,11 @@ xmlhttp.addEventListener("load",function(){
 xmlhttp.open("get","http://jonhlambert.com/slnotes/json.php?request=both",true);
 xmlhttp.send();
 
-$("#notes").on("click","li",function(){
-    $("#notesPanel li").not(this).removeClass("active");
-    $(this).addClass("active");
+$("#notes").on("click","li",function(evt){
+    if(!evt.ctrlKey){
+        $("#notesPanel li").not(this).removeClass("active");
+    }
+    $(this).toggleClass("active");
 });
 
 $(document).on("click",function(evt){
@@ -128,18 +131,31 @@ addNote = function(){
     $("#text").html("");
     $("#originalNote").html("");
     $("#cats")[0].selectedIndex = (0-1);
+    $("#followUps").html("");
+    $("#follows")[0].value = "";
     $("#submit")[0].value = "Add note";
 }
 
 addFollow = function(note){
     var active = $("#notesPanel li.active").not("#notesPanel li.sub");
-    if(active.length == 1){
+    if((active.length > 0) || is(note)){
+        var notes = new Array();
+        if(active.length > 1){
+            for(var i=0; i<active.length; i++){
+                notes.push(active[i].note);
+            }
+        }else notes.push(is(note) ? note : active[0].note);
         var follows = $("#follows")[0].value.split(",");
-        if((follows.indexOf(active[0].note.id) < 0) && (follows[0] != "")){
-            var follow = new Follow(active[0].note);
-            $("#followUps").append(follow.element);
-            follows.push(active[0].note.id);
-        }else follows[0] = active[0].note.id;
+        for(var i=0; i<notes.length; i++){
+            var note = notes[i];
+            if(follows.indexOf(String(note.id)) < 0){
+                var follow = new Follow(note);
+                $("#followUps").append(follow.element);
+                if(follows[0] != ""){
+                    follows.push(note.id);
+                }else follows[0] = note.id;
+            }
+        }
         $("#follows")[0].value = follows.join(",");
     }
 }
@@ -159,17 +175,24 @@ editNote = function(){
         active = active[0].note;
         $("#action")[0].value = "edit_note";
         $("#id")[0].value = active.id;
+        for(var i=0; i<$("#type")[0].options.length; i++){
+            if($("#type")[0].options[i].value == active.type){
+                $("#type")[0].selectedIndex = i;
+                break;
+            }
+        }
         $("#currentAction").text("Editing note #"+active.id);
         $("#text").html(active.text);
         $("#originalNote").html(active.text);
-        $("#cats")[0].selectedIndex = active.cat;
-        for(var i=0; i<$("#cats")[0].options.length,active.cat != 0; i++){
+        $("#followUps").html("");
+        $("#follows")[0].value = "";
+        for(var i=0; i<$("#cats")[0].options.length; i++){
             if($("#cats")[0].options[i].value == active.cat){
                 $("#cats")[0].selectedIndex = i;
-                end;
+                break;
             }
         }
-        for(var i=0; i<active.follows.length; i++){
+        for(var i=0; i<active.follows.length; i++){console.log(active,i);
             addFollow(getNote(active.follows[i]));
         }
         $("#submit")[0].value = "Submit edit";
