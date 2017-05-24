@@ -86,6 +86,7 @@ body
         background:white;
         border:1px inset #eee;
         box-sizing:border-box;
+        overflow:auto;
     }
 
         #notesPanel > ul.notes li
