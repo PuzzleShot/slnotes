@@ -1,5 +1,6 @@
 <?php
 require_once("jonSQL.php");
+header("Content-Type: application/json");
 
 if(isset($_REQUEST["request"])){
     switch($_REQUEST["request"]){
