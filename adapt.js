@@ -93,24 +93,24 @@ function searchNotes(query){
     var types = ["inq","sts","req","adv"];
     var type = types.indexOf(query.substr(0,3));
     var useType = (type >= 0) || (query.trim().length <= 3);
-    for(var i=0; i<query.length; i++){
-        var regex = new RegExp(query.substr(0,query.length-i),"gi");
-        for(var j=0; j<cgen.notes.length; j++){
-            var note = cgen.notes[j];
-            var test = note.text;
-            if(useType){
-                var test = note.type+" "+test;
-                regex = new RegExp("^"+query.substr(0,query.length-i),"gi");
-            }
-            if(regex.test(test) && (result.matches.length < 5)){
-                if((i == 0) && (query == test)){
-                    result.exact = note;
-                }else result.matches.push(note);
+    var regex = new RegExp(query,"gi");
+    for(var i=0; i<cgen.notes.length; i++){
+        var note = cgen.notes[i];
+        var test = note.text;
+        if(useType){
+            var test = note.type+" "+test;
+            regex = new RegExp("^"+query,"gi");
+        }
+        if(regex.test(test) && (result.matches.length < 5)){
+            if((i == 0) && (query == test)){
+                result.exact = note;
+            }else if(result.matches.indexOf(note) < 0){
+                 result.matches.push(note);
             }
         }
-        if(result.matches.length == 5){
-            break;
-        }
+    }
+    if(result.matches.length == 5){
+        break;
     }
     return result;
 }
