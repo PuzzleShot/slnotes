@@ -41,6 +41,15 @@ body
         box-sizing:border-box;
     }
 
+        #notesPanel > #toolbar select
+        {
+            height:30px;
+            width:129px;
+            font-size:12px;
+            border-radius:0;
+            box-sizing:border-box;
+        }
+
         #notesPanel > #toolbar i.fa
         {
             display:block;
