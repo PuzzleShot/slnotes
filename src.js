@@ -125,6 +125,37 @@ function Tool(icon,action){
     }
 }
 
+function SortSelect(){
+    this.element = createElement("select");
+    $(this.element).append(createElement("option"));
+    this.options = [];
+    
+    $(this.element).on("click",function(){
+        $("#notesPanel li").show();
+        if(this.selectedIndex > 0){
+            var option = this.options[this.selectedIndex];
+            var notes = $("#notesPanel li");
+            for(var i=0; i<notes.length; i++){
+                if(notes[i].note.cat == option.value){
+                    $(notes[i]).hide();
+                    $(notes[i]).removeClass("active");
+                }
+            }
+        }
+    });
+    
+    for(var i=0; i<noteCats.length; i++){
+        var cat = noteCats[i];
+        var option = createElement("option",{
+            "textContent": cat.name,
+            "value": cat.id, 
+            "parent": this
+        });
+        this.options.push(option);
+        $(this.element).append(option);
+    }
+}
+
 addNote = function(){
     $("#action")[0].value = "new_note";
     $("#currentAction").text("New Note");
@@ -215,4 +246,4 @@ trash = function(){
     }
 }
 
-$("#toolbar").append(new Tool("plus",addNote).element,new Tool("arrow-right",addFollow).element,new Tool("pencil",editNote).element,new Tool("trash",trash).element);
+$("#toolbar").append(new SortSelect(),new Tool("plus",addNote).element,new Tool("arrow-right",addFollow).element,new Tool("pencil",editNote).element,new Tool("trash",trash).element);
