@@ -5,9 +5,9 @@ function NoteCategory(id,name,parent){
     this.id = isNumber(id,true) ? id : void 0;
     this.name = isString(name,true) ? name : void 0;
     if(isNumber(parent,true)){
-        for(var i=0; i<noteCats.length; i++){
-            if(noteCats[i].id == parent){
-                this.parent = noteCats[i];
+        for(var i=0; i<cgen.categories.length; i++){
+            if(cgen.categories[i].id == parent){
+                this.parent = cgen.categories[i];
                 break;
             }
         }
@@ -15,9 +15,9 @@ function NoteCategory(id,name,parent){
             this.parent = parent;
         }
     }
-    for(var i=0; i<noteCats.length; i++){
-        if(noteCats[i].parent == this.id){
-            noteCats[i].parent = this;
+    for(var i=0; i<cgen.categories.length; i++){
+        if(cgen.categories[i].parent == this.id){
+            cgen.categories[i].parent = this;
         }
     }
     this.notes = new Array();
@@ -40,6 +40,10 @@ function NoteCategory(id,name,parent){
         }
         return value;
     }
+    
+    this.hasParent = function(id){
+        return is(this.parent) ? this.id == id || this.parent.hasParent(id) : this.id == id;
+    }
 }
 
 function Note(id,cat,noteType,note,follows){
@@ -55,6 +59,17 @@ getNote = function(id){
     for(var i=0; i<cgen.notes.length; i++){
         if(cgen.notes[i].id == id){
             value = cgen.notes[i];
+            break;
+        }
+    }
+    return value;
+}
+
+getCat = function(id){
+    var value = void 0;
+    for(var i=0; i<cgen.categories.length; i++){
+        if(cgen.categories[i].id == id){
+            value = cgen.categories[i];
             break;
         }
     }
@@ -83,6 +98,7 @@ xmlhttp.addEventListener("load",function(){
         var li = createElement("li",{ "innerHTML": "<b>"+note.type+"</b> "+note.text, "note": note });
         $("#notes").append(li);
     }
+    listSort.populate();
 });
 xmlhttp.open("get","http://jonhlambert.com/slnotes/json.php?request=both",true);
 xmlhttp.send();
@@ -136,7 +152,7 @@ function SortSelect(){
             var option = this.options[this.selectedIndex];
             var notes = $("#notesPanel li");
             for(var i=0; i<notes.length; i++){
-                if(notes[i].note.cat == option.value){
+                if(!getCat(notes[i].note.cat).hasParent(option.value)){
                     $(notes[i]).hide();
                     $(notes[i]).removeClass("active");
                 }
@@ -144,15 +160,17 @@ function SortSelect(){
         }
     });
     
-    for(var i=0; i<noteCats.length; i++){
-        var cat = noteCats[i];
-        var option = createElement("option",{
-            "textContent": cat.name,
-            "value": cat.id, 
-            "parent": this
-        });
-        this.options.push(option);
-        $(this.element).append(option);
+    this.populate = function(){
+        for(var i=0; i<cgen.categories.length; i++){
+            var cat = cgen.categories[i];
+            var option = createElement("option",{
+                "textContent": cat.name,
+                "value": cat.id, 
+                "parent": this
+            });
+            this.options.push(option);
+            $(this.element).append(option);
+        }
     }
 }
 
@@ -246,4 +264,5 @@ trash = function(){
     }
 }
 
-$("#toolbar").append(new SortSelect().element,new Tool("plus",addNote).element,new Tool("arrow-right",addFollow).element,new Tool("pencil",editNote).element,new Tool("trash",trash).element);
+var listSort = new SortSelect();
+$("#toolbar").append(listSort.element,new Tool("plus",addNote).element,new Tool("arrow-right",addFollow).element,new Tool("pencil",editNote).element,new Tool("trash",trash).element);
