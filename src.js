@@ -246,4 +246,4 @@ trash = function(){
     }
 }
 
-$("#toolbar").append(new SortSelect(),new Tool("plus",addNote).element,new Tool("arrow-right",addFollow).element,new Tool("pencil",editNote).element,new Tool("trash",trash).element);
+$("#toolbar").append(new SortSelect().element,new Tool("plus",addNote).element,new Tool("arrow-right",addFollow).element,new Tool("pencil",editNote).element,new Tool("trash",trash).element);
