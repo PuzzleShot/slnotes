@@ -235,6 +235,7 @@ editNote = function(){
         $("#text").html(active.text);
         $("#originalNote").html(active.text);
         $("#chat").html(active.chat);
+        $("#originalChat").html(active.chat);
         $("#followUps").html("");
         $("#follows")[0].value = "";
         for(var i=0; i<$("#cats")[0].options.length; i++){
