@@ -19,6 +19,7 @@ create table notes
 id bigint unsigned not null auto_increment,
 type enum("inq","sts","req","adv") not null,
 note tinytext not null,
+chat text not null,
 follows text,
 primary key (id),
 foreign key (cat) references cats(id)
