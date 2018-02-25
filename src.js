@@ -46,11 +46,12 @@ function NoteCategory(id,name,parent){
     }
 }
 
-function Note(id,cat,noteType,note,follows){
+function Note(id,cat,noteType,note,chat,follows){
     this.id = id;
     this.cat = cat;
     this.type = noteType;
     this.text = note;
+    this.chat = chat;
     this.follows = isString(follows) ? follows.split(",") : follows;
 }
 
@@ -88,7 +89,7 @@ xmlhttp.addEventListener("load",function(){
     cgen.notes = new Array();
     for(var i=0;i<info.notes.length;i++){
         var note = info.notes[i];
-        cgen.notes.push(new Note(note.id,note.cat,note.type,note.note,note.follows));
+        cgen.notes.push(new Note(note.id,note.cat,note.type,note.note,note.chat,note.follows));
         note = cgen.notes[cgen.notes.length-1];
         for(var j=0; j<cgen.categories.length; j++){
             if(cgen.categories[j].id == note.cat){
@@ -233,6 +234,7 @@ editNote = function(){
         $("#currentAction").text("Editing note #"+active.id);
         $("#text").html(active.text);
         $("#originalNote").html(active.text);
+        $("#chat").html(active.chat);
         $("#followUps").html("");
         $("#follows")[0].value = "";
         for(var i=0; i<$("#cats")[0].options.length; i++){
