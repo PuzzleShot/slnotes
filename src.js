@@ -180,9 +180,12 @@ addNote = function(){
     $("#currentAction").text("New Note");
     $("#text").html("");
     $("#originalNote").html("");
+    $("#chat").html("");
+    $("#originalChat").html("");
     $("#cats")[0].selectedIndex = (0-1);
     $("#followUps").html("");
     $("#follows")[0].value = "";
+    $("#id")[0].value = "";
     $("#submit")[0].value = "Add note";
 }
 
