@@ -66,8 +66,8 @@ if(!$logged_in){
                 }
                 if($_POST["form_action"] == "new_note"){
                     if(isset($cat)){
-                        jonSQL::query("insert into notes (cat,type,note,chat,follows) values (?,'?','?','?')",array($cat,$type,$text,$chat,$follows));
-                    }else jonSQL::query("insert into notes (type,note,chat,follows) values ('?','?','?')",array($type,$text,$chat,$follows));
+                        jonSQL::query("insert into notes (cat,type,note,chat,follows) values (?,'?','?','?','?')",array($cat,$type,$text,$chat,$follows));
+                    }else jonSQL::query("insert into notes (type,note,chat,follows) values ('?','?','?','?')",array($type,$text,$chat,$follows));
                 }else{
                     if(isset($cat)){
                         jonSQL::query("update notes set type = '?', note = '?', chat = '?', cat = ?, follows = '?' where id = ?",array($type,$text,$chat,$cat,$follows,$id));
