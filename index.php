@@ -31,12 +31,16 @@ if(!isset($_SESSION["clock_id"])){
                         <option value="req">REQ</option>
                         <option value="adv">ADV</option>
                     </select>
+                </div>
+                <div class="field">
+                    <strong>Note</strong>
+                    <textarea name="text" id="text"></textarea>
                     <p id="originalNote"></p>
                 </div>
                 <div class="field">
-                    <strong>Text</strong>
-                    <textarea name="text" id="text"></textarea>
-                    <p id="originalNote"></p>
+                    <strong>Chat</strong>
+                    <textarea name="chat" id="text"></textarea>
+                    <p id="originalChat"></p>
                 </div>
                 <div class="field">
                     <strong>Category</strong>
