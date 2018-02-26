@@ -173,6 +173,19 @@ div.field
         line-height:24px;
     }
 
+    div.field > select, div.field > button
+    {
+        margin-right:16px;
+    }
+    
+    div.field > button
+    {
+        display:inline-block;
+        position:relative;
+        height:36px;
+        box-sizing:border-box;
+    }
+
 .follow
 {
     display:block;
