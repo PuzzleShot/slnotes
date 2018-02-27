@@ -24,7 +24,7 @@ if(!isset($_SESSION["clock_id"])){
             <form method="post" action="http://jonhlambert.com/slnotes/backend.php">
                 <strong id="currentAction">New note</strong>
                 <div class="field">
-                    <strong>Type</strong>
+                    <strong>Prefix</strong>
                     <select name="type" id="type">
                         <option value="inq">INQ</option>
                         <option value="sts">STS</option>
@@ -33,7 +33,7 @@ if(!isset($_SESSION["clock_id"])){
                     </select>
                 </div>
                 <div class="field">
-                    <strong>Note</strong>
+                    <strong>Text</strong>
                     <textarea name="text" id="text"></textarea>
                     <p id="originalNote"></p>
                 </div>
@@ -47,13 +47,21 @@ if(!isset($_SESSION["clock_id"])){
                     <select name="cats" id="cats"></select>
                 </div>
                 <div class="field">
+                    <strong>Type</strong>
+                    <select name="types" id="types">
+                        <option></option>
+                    </select>
+                    <button type="button" onclick="addType()">Add</button>
+                    <button type="button" onclick="editType()">Edit</button>
+                </div>
+                <div class="field">
                     <strong>Follow-up notes</strong>
                     <div id="followUps"></div>
                     <input type="hidden" name="follows" id="follows">
                 </div>
                 <input type="hidden" name="form_action" value="new_note" id="action">
                 <input type="hidden" name="id" id="id">
-                <input type="submit" value="Add" id="submit">
+                <input type="submit" value="Add note" id="submit">
             </form>
         </div>
         <script type="text/javascript" src="src.js"></script>
