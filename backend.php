@@ -61,18 +61,18 @@ if(!$logged_in){
                 $chat = jonSQL::prepare_parameter($_POST["chat"]);
                 $type = jonSQL::prepare_parameter($_POST["type"]);
                 $follows = jonSQL::prepare_parameter($_POST["follows"]);
-                $label = jonSQL::prepare_parameter($_POST["label"]);
+                $label = jonSQL::prepare_parameter($_POST["types"]);
                 if(isset($_POST["cats"])){
                    $cat = jonSQL::prepare_parameter($_POST["cats"]);
                 }
                 if($_POST["form_action"] == "new_note"){
                     if(isset($cat)){
-                        jonSQL::query("insert into notes (cat,type,note,chat,follows,label) values (?,'?','?','?','?','?')",array($cat,$type,$text,$chat,$follows,$label));
-                    }else jonSQL::query("insert into notes (type,note,chat,follows,label) values ('?','?','?','?','?')",array($type,$text,$chat,$follows,$label));
+                        jonSQL::query("insert into notes (cat,type,note,chat,follows,label) values (?,'?','?','?','?',?)",array($cat,$type,$text,$chat,$follows,$label));
+                    }else jonSQL::query("insert into notes (type,note,chat,follows,label) values ('?','?','?','?',?)",array($type,$text,$chat,$follows,$label));
                 }else{
                     if(isset($cat)){
-                        jonSQL::query("update notes set type = '?', note = '?', chat = '?', cat = ?, follows = '?', label = '?'  where id = ?",array($type,$text,$chat,$cat,$follows,$id,$label));
-                    }else jonSQL::query("update notes set type = '?', note = '?', chat ='?', follows = '?', label = '?' where id = ?",array($type,$text,$chat,$follows,$id,$label));
+                        jonSQL::query("update notes set type = '?', note = '?', chat = '?', cat = ?, follows = '?', label = ?  where id = ?",array($type,$text,$chat,$cat,$follows,$label,$id));
+                    }else jonSQL::query("update notes set type = '?', note = '?', chat ='?', follows = '?', label = ? where id = ?",array($type,$text,$chat,$follows,$label,$id));
                 }
                 break;
             case "delete_note":
@@ -84,8 +84,8 @@ if(!$logged_in){
             case "edit_type":
                 $id = jonSQL::prepare_parameter($_POST["id"]);
             case "new_type":
-                $name = jonSQL::prepare_parameter($_POST["name"]);
-                $note = jonSQL::prepare_parameter($_POST["note"]);
+                $name = jonSQL::prepare_parameter($_POST["text"]);
+                $note = jonSQL::prepare_parameter($_POST["chat"]);
                 $type = jonSQL::prepare_parameter($_POST["type"]);
                 if(isset($_POST["cats"])){
                    $cat = jonSQL::prepare_parameter($_POST["cats"]);
@@ -96,8 +96,8 @@ if(!$logged_in){
                     }else jonSQL::query("insert into types (type,name,note) values ('?','?','?')",array($type,$name,$note));
                 }else{
                     if(isset($cat)){
-                        jonSQL::query("update types set type = '?', name = '?', note = '?', cat = ?  where id = ?",array($type,$name,$note,$cat));
-                    }else jonSQL::query("update types set type = '?', name = '?', note ='?' where id = ?",array($type,$name,$note));
+                        jonSQL::query("update types set type = '?', name = '?', note = '?', cat = ?  where id = ?",array($type,$name,$note,$cat,$id));
+                    }else jonSQL::query("update types set type = '?', name = '?', note ='?' where id = ?",array($type,$name,$note,$id));
                 }
                 break;
             case "delete_type":
