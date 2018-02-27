@@ -6,7 +6,7 @@ if(isset($_REQUEST["request"])){
     switch($_REQUEST["request"]){
         case "both":
             $cats = jonSQL::query("select * from cats");
-            $result = array("cats" => array(),"notes" => array());
+            $result = array("cats" => array(),"notes" => array(),"types" => array());
             for($i=0; $i<$cats[1]; $i++){
                 $cat = jonSQL::fetch_array($cats[0],MYSQLI_ASSOC);
                 $cat["id"] = (int)$cat["id"];
@@ -27,6 +27,13 @@ if(isset($_REQUEST["request"])){
                     }
                 }
                 array_push($result["notes"],$note);
+            }
+            $types = jonSQL::query("select * from types");
+            for($i=0; $i<$types[1]; $i++){
+                $type = jonSQL::fetch_array($types[0],MYSQLI_ASSOC);
+                $type["id"] = (int)$type["id"];
+                $type["cat"] = (int)$type["cat"];
+                array_push($result["types"],$type);
             }
             $result = (object)$result;
             break;
@@ -55,7 +62,7 @@ if(isset($_REQUEST["request"])){
         case "notes":
             $notes = jonSQL::query("select * from notes");
             if($notes[1] > 0){
-                $result = array("notes" => array());
+                $result = array("notes" => array(),"types" => array());
                 for($i=0; $i<$notes[1]; $i++){
                     $note = jonSQL::fetch_array($notes[0],MYSQLI_ASSOC);
                     $note["id"] = (int)$note["id"];
@@ -70,6 +77,13 @@ if(isset($_REQUEST["request"])){
                     }
                     array_push($result["notes"],$note);
                 }
+            }
+            $types = jonSQL::query("select * from types");
+            for($i=0; $i<$types[1]; $i++){
+                $type = jonSQL::fetch_array($types[0],MYSQLI_ASSOC);
+                $type["id"] = (int)$type["id"];
+                $type["cat"] = (int)$type["cat"];
+                array_push($result["types"],$type);
             }
             $result = (object)$result;
             break;
