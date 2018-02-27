@@ -55,6 +55,14 @@ function Note(id,cat,noteType,note,chat,follows){
     this.follows = isString(follows) ? follows.split(",") : follows;
 }
 
+function NoteType(id,cat,noteType,name,note){
+    this.id = id;
+    this.cat = cat;
+    this.type = noteType;
+    this.name = name;
+    this.note = note;
+}
+
 getNote = function(id){
     var value = void 0;
     for(var i=0; i<cgen.notes.length; i++){
@@ -98,6 +106,12 @@ xmlhttp.addEventListener("load",function(){
         }
         var li = createElement("li",{ "innerHTML": "<b>"+note.type+"</b> "+note.text, "note": note });
         $("#notes").append(li);
+    }
+    cgen.types = new Array();
+    for(var i=0;i<info.types.length;i++){
+        var type = info.types[i];
+        cgen.types.push(new NoteType(type.id,type.cat,type.type,type.name,type.note));
+        $("#types").append(createElement("option",{ "value": type.id, "noteType": type, "innerText": type.name }));
     }
     listSort.populate();
 });
@@ -149,6 +163,7 @@ function SortSelect(){
     
     $(this.element).on("click",function(){
         $("#notesPanel li").show();
+        $("#types option").show();
         if(this.selectedIndex > 0){
             var option = this.options[this.selectedIndex];
             var notes = $("#notesPanel li");
@@ -156,6 +171,12 @@ function SortSelect(){
                 if(!getCat(notes[i].note.cat).hasParent(option.value)){
                     $(notes[i]).hide();
                     $(notes[i]).removeClass("active");
+                }
+            }
+            var types = $("#types option");
+            for(var i=1; i<types.length; i++){
+                if(!getCat(types[i].noteType.cat).hasParent(option.value)){
+                    $(types[i]).hide();
                 }
             }
         }
@@ -176,8 +197,9 @@ function SortSelect(){
 }
 
 addNote = function(){
+    $("div.field").show();
     $("#action")[0].value = "new_note";
-    $("#currentAction").text("New Note");
+    $("#currentAction").text("New note");
     $("#text").html("");
     $("#originalNote").html("");
     $("#chat").html("");
@@ -187,6 +209,23 @@ addNote = function(){
     $("#follows")[0].value = "";
     $("#id")[0].value = "";
     $("#submit")[0].value = "Add note";
+}
+
+addType = function(){
+    $("div.field").show();
+    $($("div.field")[4]).hide();
+    $($("div.field")[5]).hide();
+    $("#action")[0].value = "new_type";
+    $("#currentAction").text("New type");
+    $("#text").html("");
+    $("#originalNote").html("");
+    $("#chat").html("");
+    $("#originalChat").html("");
+    $("#cats")[0].selectedIndex = (0-1);
+    $("#followUps").html("");
+    $("#follows")[0].value = "";
+    $("#id")[0].value = "";
+    $("#submit")[0].value = "Add type";
 }
 
 addFollow = function(note){
@@ -222,19 +261,45 @@ removeFollow = function(follow){
     }
 }
 
-editNote = function(){
-    var active = $("#notesPanel li.active").not("#notesPanel li.sub");
-    if(active.length == 1){
-        active = active[0].note;
-        $("#action")[0].value = "edit_note";
-        $("#id")[0].value = active.id;
+editType = function(){
+    if($("#types")[0].selectedIndex > 0){
+        $("div.field").show();
+        $($("div.field")[4]).hide();
+        $($("div.field")[5]).hide();
+        var active = $("#types")[0].options[$("#types")[0].selectedIndex];
+        $("#action")[0].value = "edit_type";
+        $("#id")[0].value = active.noteType.id;
         for(var i=0; i<$("#type")[0].options.length; i++){
-            if($("#type")[0].options[i].value == active.type){
+            if($("#type")[0].options[i].value == active.noteType.type){
                 $("#type")[0].selectedIndex = i;
                 break;
             }
         }
-        $("#currentAction").text("Editing note #"+active.id);
+        $("#currentAction").text("Editing type #"+active.noteType.id);
+        $("#text").html(active.noteType.name);
+        $("#originalNote").html(active.noteType.name);
+        $("#chat").html(active.noteType.note);
+        $("#originalChat").html(active.noteType.note);
+        $("#followUps").html("");
+        $("#follows")[0].value = "";
+        $("#submit")[0].value = "Submit edit";
+    }
+}
+
+editNote = function(){
+    $("div.field").show();
+    var active = $("#notesPanel li.active").not("#notesPanel li.sub");
+    if(active.length == 1){
+        active = active[0].note;
+        $("#action")[0].value = "edit_type";
+        $("#id")[0].value = active.id;
+        for(var i=0; i<$("#type")[0].options.length; i++){
+            if($("#type")[0].options[i].value == active.label){
+                $("#type")[0].selectedIndex = i;
+                break;
+            }
+        }
+        $("#currentAction").text("Editing type #"+active.id);
         $("#text").html(active.text);
         $("#originalNote").html(active.text);
         $("#chat").html(active.chat);
@@ -244,6 +309,12 @@ editNote = function(){
         for(var i=0; i<$("#cats")[0].options.length; i++){
             if($("#cats")[0].options[i].value == active.cat){
                 $("#cats")[0].selectedIndex = i;
+                break;
+            }
+        }
+        for(var i=0; i<$("#types")[0].options.length; i++){
+            if($("#types")[0].options[i].value == active.label){
+                $("#types")[0].selectedIndex = i;
                 break;
             }
         }
