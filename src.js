@@ -291,7 +291,7 @@ editNote = function(){
     var active = $("#notesPanel li.active").not("#notesPanel li.sub");
     if(active.length == 1){
         active = active[0].note;
-        $("#action")[0].value = "edit_type";
+        $("#action")[0].value = "edit_note";
         $("#id")[0].value = active.id;
         for(var i=0; i<$("#type")[0].options.length; i++){
             if($("#type")[0].options[i].value == active.label){
@@ -299,7 +299,7 @@ editNote = function(){
                 break;
             }
         }
-        $("#currentAction").text("Editing type #"+active.id);
+        $("#currentAction").text("Editing note #"+active.id);
         $("#text").html(active.text);
         $("#originalNote").html(active.text);
         $("#chat").html(active.chat);
