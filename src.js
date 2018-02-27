@@ -46,13 +46,14 @@ function NoteCategory(id,name,parent){
     }
 }
 
-function Note(id,cat,noteType,note,chat,follows){
+function Note(id,cat,noteType,note,chat,follows,label){
     this.id = id;
     this.cat = cat;
     this.type = noteType;
     this.text = note;
     this.chat = chat;
     this.follows = isString(follows) ? follows.split(",") : follows;
+    this.label = label;
 }
 
 function NoteType(id,cat,noteType,name,note){
@@ -97,7 +98,7 @@ xmlhttp.addEventListener("load",function(){
     cgen.notes = new Array();
     for(var i=0;i<info.notes.length;i++){
         var note = info.notes[i];
-        cgen.notes.push(new Note(note.id,note.cat,note.type,note.note,note.chat,note.follows));
+        cgen.notes.push(new Note(note.id,note.cat,note.type,note.note,note.chat,note.follows,note.label));
         note = cgen.notes[cgen.notes.length-1];
         for(var j=0; j<cgen.categories.length; j++){
             if(cgen.categories[j].id == note.cat){
@@ -207,6 +208,7 @@ addNote = function(){
     $("#cats")[0].selectedIndex = (0-1);
     $("#followUps").html("");
     $("#follows")[0].value = "";
+    $("#types")[0].selectedIndex = 0;
     $("#id")[0].value = "";
     $("#submit")[0].value = "Add note";
 }
@@ -224,6 +226,7 @@ addType = function(){
     $("#cats")[0].selectedIndex = (0-1);
     $("#followUps").html("");
     $("#follows")[0].value = "";
+    $("#types")[0].selectedIndex = 0;
     $("#id")[0].value = "";
     $("#submit")[0].value = "Add type";
 }
