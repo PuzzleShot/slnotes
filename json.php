@@ -18,6 +18,7 @@ if(isset($_REQUEST["request"])){
                 $note = jonSQL::fetch_array($notes[0],MYSQLI_ASSOC);
                 $note["id"] = (int)$note["id"];
                 $note["cat"] = (int)$note["cat"];
+                $note["label"] = (int)$note["label"];
                 $note["follows"] = explode(",",$note["follows"]);
                 for($j=0; $j<count($note["follows"]); $j++){
                     $note["follows"][$j] = (int)$note["follows"][$j];
@@ -67,6 +68,7 @@ if(isset($_REQUEST["request"])){
                     $note = jonSQL::fetch_array($notes[0],MYSQLI_ASSOC);
                     $note["id"] = (int)$note["id"];
                     $note["cat"] = (int)$note["cat"];
+                    $note["label"] = (int)$note["label"];
                     $note["follows"] = explode(",",$note["follows"]);
                     for($j=0; $j<count($note["follows"]); $j++){
                         $note["follows"][$j] = (int)$note["follows"][$j];
@@ -94,6 +96,7 @@ if(isset($_REQUEST["request"])){
                 $result = jonSQL::fetch_array($note[0],MYSQLI_ASSOC);
                 $result["id"] = (int)$result["id"];
                 $result["cat"] = (int)$result["cat"];
+                $result["label"] = (int)$result["label"];
                 $result["follows"] = explode(",",$result["follows"]);
                 for($i=0; $i<count($result["follows"]); $i++){
                     $result["follows"][$i] = (int)$result["follows"][$i];
