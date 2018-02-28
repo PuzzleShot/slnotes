@@ -297,7 +297,7 @@ editNote = function(){
         $("#action")[0].value = "edit_note";
         $("#id")[0].value = active.id;
         for(var i=0; i<$("#type")[0].options.length; i++){
-            if($("#type")[0].options[i].value == active.label){
+            if($("#type")[0].options[i].value == active.type){
                 $("#type")[0].selectedIndex = i;
                 break;
             }
