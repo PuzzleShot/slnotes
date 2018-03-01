@@ -61,7 +61,7 @@ if(!$logged_in){
                 $chat = jonSQL::prepare_parameter($_POST["chat"]);
                 $type = jonSQL::prepare_parameter($_POST["type"]);
                 $follows = jonSQL::prepare_parameter($_POST["follows"]);
-                $label = jonSQL::prepare_parameter($_POST["types"]);
+                $label = jonSQL::prepare_parameter($_POST["types"] != null ? $_POST["types"] : "null");
                 if(isset($_POST["cats"])){
                    $cat = jonSQL::prepare_parameter($_POST["cats"]);
                 }
